@@ -6,20 +6,19 @@ class CharactersWebServices {
 
   CharactersWebServices() {
     BaseOptions options = BaseOptions(
-      baseUrl: baseUrl,//final baseUrl='https://www.breakingbadapi.com/api/';
+      baseUrl: baseUrl,
       receiveDataWhenStatusError: true,
-      // connectTimeout: 20000,
-      // receiveTimeout: 20000,
+      connectTimeout: 20000,
+      receiveTimeout: 20000,
     );
     dio = Dio(options);
   }
 
-
   Future<List<dynamic>> getAllCharacters() async {
     try {
       Response response = await dio.get('characters');
-      //print(response.data.toString());
-      return response.data;//list
+     // print(response.data.toString());
+      return response.data; //list
     } catch (e) {
       print(e.toString());
       return [];

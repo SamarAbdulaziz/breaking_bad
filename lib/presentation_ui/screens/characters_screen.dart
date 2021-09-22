@@ -166,10 +166,9 @@ Widget buildAppBarTitle(){
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(), //NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
-      itemCount: allCharacters.length,
-      //itemBuilder: (context,index)=>CharacterItem(character: allCharacters[index],),
+      itemCount:searchTextController.text.isEmpty? allCharacters.length:searchedForCharacters.length,
       itemBuilder: (context, index) => CharacterItem(
-        character: allCharacters[index],
+        character:searchTextController.text.isEmpty? allCharacters[index]:searchedForCharacters[index],
       ),
     );
   }

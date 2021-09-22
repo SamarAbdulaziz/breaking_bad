@@ -9,6 +9,7 @@ class CharactersRepository {
    Future<List<Character>> getAllCharacters() async {
      //the variable characters is a list of all data (json)?right????right
     final characters=await charactersWebServices.getAllCharacters();
+    print(characters);
      //the returned list with the details of each object after parsing it by my model
     //the fn.map=>loops on every object of the origin list it knows how to specify each element and convert it to the new list
     return characters.map((character) => Character.fromJson(character)).toList();
