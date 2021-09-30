@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_breaking_youtube/data/models/characters.dart';
-import 'package:flutter_breaking_youtube/data/repositry/charactersRepository.dart';
+import 'package:flutter_breaking_youtube/data/repository/charactersRepository.dart';
 import 'package:meta/meta.dart';
 
 part 'characters_state.dart';
@@ -13,7 +13,7 @@ class CharactersCubit extends Cubit<CharactersState> {
 
   List<Character> getAllCharacters(){
   charactersRepository.getAllCharacters().then((characters) {
-   // print(characters.toList());
+   // print(characters);//the same list of the character instance that come from repo and its already a list so we don't have to put here .tolist()
     emit(CharactersLoaded(characters));
     this.characters=characters;
   });

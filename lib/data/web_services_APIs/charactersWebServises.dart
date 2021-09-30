@@ -16,6 +16,7 @@ class CharactersWebServices {
 
   Future<List<dynamic>> getAllCharacters() async {
     try {
+      //response is the json data that returned from postman which has status code 200
       Response response = await dio.get('characters');
      // print(response.data.toString());
       return response.data; //list

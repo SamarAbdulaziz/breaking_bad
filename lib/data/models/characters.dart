@@ -9,7 +9,7 @@ class Character{
   late  String actorRealName;
   late String categoryOfTwoSeries;
   late  List<dynamic> betterCallSaulAppearance;
-
+  //named constructor
   Character.fromJson(Map<String,dynamic>json){
     charId=json['char_id'];
     name=json['name'];

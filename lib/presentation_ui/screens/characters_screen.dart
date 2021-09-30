@@ -29,7 +29,8 @@ class _CharactersScreenState extends State<CharactersScreen> {
           hintStyle: TextStyle(
             color: MyColors.myGrey,
             fontSize: 18.0,
-          )),
+          ),
+      ),
       onChanged: (characterSearched) {
         addSearchedItemsToSearchedList(characterSearched);
       },
@@ -61,7 +62,7 @@ class _CharactersScreenState extends State<CharactersScreen> {
     } else {
       return IconButton(
         //todo
-        onPressed: startSearch,
+        onPressed: startSearch, // onPressed: (){startSearch();},
         icon: Icon(
           Icons.search,
           color: MyColors.myGrey,
@@ -89,19 +90,21 @@ class _CharactersScreenState extends State<CharactersScreen> {
     });
   }
 
-  void clearSearch(){// i will render th screen without the text in the controller so i need a setState fn
+  void clearSearch() {
+    // i will render th screen without the text in the controller so i need a setState fn
     setState(() {
       searchTextController.clear();
     });
   }
-Widget buildAppBarTitle(){
+
+  Widget buildAppBarTitle() {
     return Text(
       'Characters',
       style: TextStyle(
         color: MyColors.myGrey,
       ),
     );
-}
+  }
 
   @override
   void initState() {
@@ -114,9 +117,13 @@ Widget buildAppBarTitle(){
     return Scaffold(
       appBar: AppBar(
         actions: [buildAppBarActions()],
-        leading: isSearching ?BackButton(color:MyColors.myGrey,):Container(),
+        leading: isSearching
+            ? BackButton(
+                color: MyColors.myGrey,
+              )
+            : Container(),
         backgroundColor: MyColors.myYellow,
-        title: isSearching ?buildSearchField():buildAppBarTitle(),
+        title: isSearching ? buildSearchField() : buildAppBarTitle(),
       ),
       body: buildBlocWidget(),
     );
@@ -161,15 +168,17 @@ Widget buildAppBarTitle(){
         crossAxisCount: 2,
         childAspectRatio: 2 / 3,
         crossAxisSpacing: 1,
-        mainAxisExtent: 1,
+        mainAxisSpacing: 1,
+        //mainAxisExtent: 1,
       ),
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(), //NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
-      itemCount:searchTextController.text.isEmpty? allCharacters.length:searchedForCharacters.length,
+      itemCount: allCharacters.length,
+      //itemBuilder: (context,index)=>CharacterItem(character: allCharacters[index],),
       itemBuilder: (context, index) => CharacterItem(
-        character:searchTextController.text.isEmpty? allCharacters[index]:searchedForCharacters[index],
+        character: allCharacters[index],
       ),
     );
   }
-}
+  }
