@@ -1,4 +1,5 @@
 import 'package:flutter_breaking_youtube/data/models/characters.dart';
+import 'package:flutter_breaking_youtube/data/models/quote.dart';
 import 'package:flutter_breaking_youtube/data/web_services_APIs/charactersWebServises.dart';
 
 class CharactersRepository {
@@ -17,4 +18,11 @@ class CharactersRepository {
 
      }
 
+  Future<List<Quote>>getAllQuote(String charName) async{
+    final quotes=await  charactersWebServices.getCharacterQuotes(charName);
+    //the returned list is a list of objects of type quote which contains a single property.i made it 3 to understand
+    return quotes.map((quote) => Quote.fromJson(quote)).toList();
   }
+
+
+}

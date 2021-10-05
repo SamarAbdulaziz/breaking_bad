@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_breaking_youtube/app_router.dart';
-import 'package:flutter_breaking_youtube/presentation_ui/screens/characters_screen.dart';
 
 void main() {
   runApp(BreakingBadApp(appRouter: AppRouter(),));//5

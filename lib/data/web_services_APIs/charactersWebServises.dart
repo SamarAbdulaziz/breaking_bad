@@ -25,4 +25,20 @@ class CharactersWebServices {
       return [];
     }
   }
+
+  Future<List<dynamic>> getCharacterQuotes(String charName) async {
+    try {
+      //response is the json data that returned from postman which has status code 200
+      Response response = await dio.get('quote',queryParameters: {'author': charName});
+      return response.data; //list
+    } catch (e) {
+      print(e.toString());
+      return [];
+    }
+  }
+
+
+
+
 }
+

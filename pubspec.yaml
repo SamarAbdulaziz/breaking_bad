@@ -27,6 +27,7 @@ dependencies:
   flutter_offline:
   bloc:
   flutter_bloc:
+  animated_text_kit:
 
 
 

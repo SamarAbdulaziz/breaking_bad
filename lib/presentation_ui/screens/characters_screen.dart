@@ -4,6 +4,7 @@ import 'package:flutter_breaking_youtube/business_logic/cubit/characters_cubit.d
 import 'package:flutter_breaking_youtube/constants/myColors.dart';
 import 'package:flutter_breaking_youtube/data/models/characters.dart';
 import 'package:flutter_breaking_youtube/presentation_ui/widgets/character_item.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 
 class CharactersScreen extends StatefulWidget {
   const CharactersScreen({Key? key}) : super(key: key);
@@ -24,12 +25,12 @@ class _CharactersScreenState extends State<CharactersScreen> {
       controller: searchTextController,
       cursorColor: MyColors.myGrey,
       decoration: InputDecoration(
-          hintText: 'Find a character',
-          border: InputBorder.none,
-          hintStyle: TextStyle(
-            color: MyColors.myGrey,
-            fontSize: 18.0,
-          ),
+        hintText: 'Find a character',
+        border: InputBorder.none,
+        hintStyle: TextStyle(
+          color: MyColors.myGrey,
+          fontSize: 18.0,
+        ),
       ),
       onChanged: (characterSearched) {
         addSearchedItemsToSearchedList(characterSearched);
@@ -125,7 +126,21 @@ class _CharactersScreenState extends State<CharactersScreen> {
         backgroundColor: MyColors.myYellow,
         title: isSearching ? buildSearchField() : buildAppBarTitle(),
       ),
-      body: buildBlocWidget(),
+      body: OfflineBuilder(
+        connectivityBuilder: (
+          BuildContext context,
+          ConnectivityResult connectivity,
+          Widget child,
+        ) {
+          final bool connected = connectivity != ConnectivityResult.none;
+          if (connected) {
+            return buildBlocWidget();
+          }else {
+            return buildNoInternetWidget();
+          }
+        },
+        child: showLoadingIndicator(),
+      ),
     );
   }
 
@@ -174,11 +189,39 @@ class _CharactersScreenState extends State<CharactersScreen> {
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(), //NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
-      itemCount: allCharacters.length,
-      //itemBuilder: (context,index)=>CharacterItem(character: allCharacters[index],),
+      itemCount: searchTextController.text.isEmpty
+          ? allCharacters.length
+          : searchedForCharacters.length,
       itemBuilder: (context, index) => CharacterItem(
-        character: allCharacters[index],
+        character: searchTextController.text.isEmpty
+            ? allCharacters[index]
+            : searchedForCharacters[index],
       ),
     );
   }
+
+  Widget buildNoInternetWidget() {
+    return Center(
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 20.0,
+            ),
+            Text(
+              'Can\'t connect ... please check your internet connection',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 22.0,
+                color: MyColors.myGrey,
+              ),
+            ),
+            Image.asset('assets/images/no_internet.png'),
+          ],
+        ),
+      ),
+    );
   }
+}

@@ -6,29 +6,39 @@ import 'package:flutter_breaking_youtube/data/web_services_APIs/charactersWebSer
 import 'package:flutter_breaking_youtube/presentation_ui/screens/character_datail_screen.dart';
 import 'package:flutter_breaking_youtube/presentation_ui/screens/characters_screen.dart';
 
+import 'data/models/characters.dart';
 import 'data/repository/charactersRepository.dart';
 
 class AppRouter {
-   late CharactersRepository charactersRepository;
+  late CharactersRepository charactersRepository;
   late CharactersCubit charactersCubit;
 
-   AppRouter(){
-     charactersRepository=CharactersRepository(CharactersWebServices());
-     charactersCubit=CharactersCubit(charactersRepository);
-   }
+  AppRouter() {
+    charactersRepository = CharactersRepository(CharactersWebServices());
+    charactersCubit = CharactersCubit(charactersRepository);
+  }
+
   Route? GenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case charactersScreen:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (BuildContext context) => charactersCubit,
-            child: CharactersScreen(),
-          ),
+          builder: (_) =>
+              BlocProvider(
+                create: (BuildContext context) => charactersCubit,
+                child: CharactersScreen(),
+              ),
         );
 
+
       case characterDetailsScreen:
+        final character = settings.arguments as Character;
+
         return MaterialPageRoute(
-          builder: (_) => CharacterDetailsScreen(),
+          builder: (_) =>
+              BlocProvider(
+                create: (context) => CharactersCubit(charactersRepository),//charactersCubit ??why to use that one
+                child: CharacterDetailsScreen(character: character),
+              ),
         );
     }
   }
